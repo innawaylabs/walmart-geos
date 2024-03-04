@@ -1,29 +1,26 @@
 package com.innawaylabs.walmartgeos
 
+import com.innawaylabs.walmartgeos.domain.model.Country
+import com.innawaylabs.walmartgeos.domain.repository.CountryRepository
 import com.innawaylabs.walmartgeos.network.CountryService
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert
+import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.net.HttpURLConnection
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
+import retrofit2.Response
 
 class CountryServiceTest {
 
-    private lateinit var service: CountryService
-    private lateinit var mockWebServer: MockWebServer
+    private lateinit var countryService: CountryService
+    private lateinit var countryRepository: CountryRepository
 
     @Before
     fun setUp() {
-        mockWebServer = MockWebServer()
-        service = Retrofit.Builder()
-            .baseUrl(mockWebServer.url("/"))
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(CountryService::class.java)
+        countryService = mock()
+        countryRepository = CountryRepository(countryService)
     }
 
     @Test
@@ -32,26 +29,16 @@ class CountryServiceTest {
     }
 
     @Test
-    fun `list countries fetches data correctly`() {
-        // Prepare a mock response
-        val mockResponse = MockResponse()
-            .setResponseCode(HttpURLConnection.HTTP_OK)
-            .setBody("[{\"name\":\"Country1\",\"region\":\"Region1\",\"code\":\"Code1\",\"capital\":\"Capital1\"}]")
-        mockWebServer.enqueue(mockResponse)
+    fun `fetchCountries returns success`() = runTest {
+        val mockCountries = listOf(Country("Country1", "Region1", "Code1", "Capital1"))
+        whenever(countryService.listCountries()).thenReturn(Response.success(mockCountries))
 
-        // Execute the call
-        val response = service.listCountries().execute()
+        val result = countryRepository.fetchCountries()
 
-        // Assert the response data
-        Assert.assertTrue(response.isSuccessful)
-        Assert.assertNotNull(response.body())
-        val countries = response.body()!!
-        Assert.assertEquals(1, countries.size)
-        Assert.assertEquals("Country1", countries[0].name)
-    }
-
-    @After
-    fun tearDown() {
-        mockWebServer.shutdown()
+        result.onSuccess {
+            Assert.assertEquals("Country1", it[0].name)
+        }.onFailure {
+            fail("Expected success but got failure")
+        }
     }
 }

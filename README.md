@@ -11,4 +11,6 @@
 - [x] Made clean and production-level networking code
 - [x] Avoid Jetpack Compose as per the instruction
 - [x] Did not use Dagger and dependency injections
-- [ ] [Optional] Use coroutines
+- [x] [Optional] Use coroutines
+
+## Time spent: 1 hour 15 minutes
