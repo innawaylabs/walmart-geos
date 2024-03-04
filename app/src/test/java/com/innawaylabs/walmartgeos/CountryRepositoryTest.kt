@@ -27,6 +27,11 @@ class CountryServiceTest {
     }
 
     @Test
+    fun example_Addition_isCorrect() {
+        Assert.assertEquals(4, 2 + 2)
+    }
+
+    @Test
     fun `list countries fetches data correctly`() {
         // Prepare a mock response
         val mockResponse = MockResponse()
