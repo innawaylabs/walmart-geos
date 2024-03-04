@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Walmart Geos</string>
+    <string name="country_name_and_region">Country Name and Region</string>
+    <string name="country_code">Country Code</string>
+    <string name="capital_city">Capital City</string>
+</resources>
