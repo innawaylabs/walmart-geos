@@ -11,4 +11,5 @@
     <color name="codeTextColor">#1976D2</color>
     <color name="capitalTextColor">#388E3C</color>
     <color name="shadowColor">#66000000</color> <!-- semi-transparent black for shadow -->
+    <color name="separatorColor">#BDBDBD</color>
 </resources>

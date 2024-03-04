@@ -1,12 +1,15 @@
-package com.innawaylabs.walmartgeos
+package com.innawaylabs.walmartgeos.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.innawaylabs.walmartgeos.R
+import com.innawaylabs.walmartgeos.domain.model.Country
 
-class CountriesAdapter(private val countries: List<Country>) : RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
+class CountriesAdapter(private val countries: List<Country>) :
+    RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val countryNameAndRegion: TextView = itemView.findViewById(R.id.tvCountryNameAndRegion)
@@ -23,9 +26,17 @@ class CountriesAdapter(private val countries: List<Country>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // TBD: Handle empty strings
         val country: Country = countries[position]
-        holder.countryNameAndRegion.text = country.name + ", " + country.region
+        // Skip the comma if and when region is empty
+        holder.countryNameAndRegion.text = if (country.region.isEmpty()) {
+            country.name
+        } else {
+            holder.itemView.context.getString(
+                R.string.display_country_name_and_region,
+                country.name,
+                country.region
+            )
+        }
         holder.countryCode.text = country.code
         holder.capitalName.text = country.capital
     }

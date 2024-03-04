@@ -1,4 +1,6 @@
-package com.innawaylabs.walmartgeos
+package com.innawaylabs.walmartgeos.network
+
+import com.innawaylabs.walmartgeos.domain.model.Country
 import retrofit2.Call
 import retrofit2.http.GET
 

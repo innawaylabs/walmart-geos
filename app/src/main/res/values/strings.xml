@@ -3,4 +3,7 @@
     <string name="country_name_and_region">Country Name and Region</string>
     <string name="country_code">Country Code</string>
     <string name="capital_city">Capital City</string>
+
+    <string name="display_country_name_and_region">%1$s, %2$s</string>
+    <string name="display_error_message">Unknown Error While Fetching Data</string>
 </resources>
